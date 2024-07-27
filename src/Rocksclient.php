@@ -4,6 +4,7 @@ namespace FadhilRiyanto
 {
         require_once(__DIR__ . "/Connection/tcp.php");
         require_once(__DIR__ . "/Wrapper/set.php");
+        require_once(__DIR__ . "/Wrapper/get.php");
         
         class Rocksclient 
         {
@@ -26,7 +27,14 @@ namespace FadhilRiyanto
                 {
                         $set = new \FadhilRiyanto\Rocksclient\Wrapper\op_set();
                         // var_dump();
-                        $this->tcp_cur->write($set->set_operand1("abc")->set_operand2("value")->getquery());
+                        $this->tcp_cur->write($set->set_operand1($key)->set_operand2($value)->getquery());
+                }
+
+                public function get($key) 
+                {
+                        $set = new \FadhilRiyanto\Rocksclient\Wrapper\op_get();
+                        // var_dump();
+                        $this->tcp_cur->write($set->set_operand1($key)->set_operand2()->getquery());
                 }
 
                 public function __destruct()
