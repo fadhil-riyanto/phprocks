@@ -35,6 +35,7 @@ namespace FadhilRiyanto
                         $set = new \FadhilRiyanto\Rocksclient\Wrapper\op_get();
                         // var_dump();
                         $this->tcp_cur->write($set->set_operand1($key)->set_operand2()->getquery());
+                        return $this->tcp_cur->recv_wait();
                 }
 
                 public function __destruct()

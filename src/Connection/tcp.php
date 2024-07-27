@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace FadhilRiyanto\Rocksclient\Connection {
         require_once(__DIR__ . "/../Error/TCPException.php");
 
+        define("U_INT16_MAX", 65535);
+
         class TCP
         {
 
@@ -60,6 +62,13 @@ namespace FadhilRiyanto\Rocksclient\Connection {
                 public function write(string $data)
                 {
                         socket_send($this->fd, $data, strlen($data), MSG_DONTWAIT);
+                }
+
+                public function recv_wait()
+                {
+                        // $bufptr = null;
+                        $bufptr = socket_read($this->fd, U_INT16_MAX, PHP_NORMAL_READ);
+                        return $bufptr;
                 }
 
                 public function destroy_ctx() 
