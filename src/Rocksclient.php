@@ -19,7 +19,7 @@ namespace FadhilRiyanto
                 public function run_init_tcp(string $host, int $port)
                 {
                         $tcp_ctx = new \FadhilRiyanto\Rocksclient\Connection\TCP();
-                        $tcp_ctx->initialize()->set_host("127.0.0.1")->set_port(4000)->create_ctx();
+                        $tcp_ctx->initialize()->set_host($host)->set_port($port)->create_ctx();
                         $this->tcp_cur = $tcp_ctx;
                 }
 
