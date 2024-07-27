@@ -3,8 +3,10 @@
 namespace FadhilRiyanto
 {
         require_once(__DIR__ . "/Connection/tcp.php");
+        require_once(__DIR__ . "/Error/NotFound.php");
         require_once(__DIR__ . "/Wrapper/set.php");
         require_once(__DIR__ . "/Wrapper/get.php");
+        require_once(__DIR__ . "/Wrapper/del.php");
         
         class Rocksclient 
         {
@@ -35,7 +37,27 @@ namespace FadhilRiyanto
                         $set = new \FadhilRiyanto\Rocksclient\Wrapper\op_get();
                         // var_dump();
                         $this->tcp_cur->write($set->set_operand1($key)->set_operand2()->getquery());
-                        return $this->tcp_cur->recv_wait();
+                        $ret = $this->tcp_cur->recv_wait();
+
+                        if ($ret == "\n") {
+                                throw new \FadhilRiyanto\Rocksclient\Exceptions\NotFoundException();
+                        } else {
+                                return $ret;
+                        }
+                }
+
+                public function del($key): bool
+                {
+                        $set = new \FadhilRiyanto\Rocksclient\Wrapper\op_del();
+                        // var_dump();
+                        $this->tcp_cur->write($set->set_operand1($key)->set_operand2()->getquery());
+                        $ret = $this->tcp_cur->recv_wait();
+
+                        if ($ret === hex2bin("07080A")) {
+                                return true;
+                        } else {
+                                return false;
+                        }
                 }
 
                 public function __destruct()
