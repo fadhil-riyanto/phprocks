@@ -53,6 +53,7 @@ namespace FadhilRiyanto\Rocksclient\Connection {
                         $this->check_socket_ext();
                         $this->init_socket();
                         $this->socket_connect();
+                        return $this;
                         
                 }
 
